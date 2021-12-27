@@ -13,7 +13,7 @@ func MinInt(a, b int) bool {
 	return a > b
 }
 
-func TestHeap(t *testing.T) {
+func TestNew(t *testing.T) {
 	tests := []struct {
 		name     string
 		cf       CompareFunc[int]
@@ -75,52 +75,52 @@ func TestExtract(t *testing.T) {
 		name             string
 		shouldFail       bool
 		extractedElement int
-		heap             *Heap[int]
-		expect           *Heap[int]
+		heap             *PrioQ[int]
+		expect           *PrioQ[int]
 	}{
 		{"Extract on MaxHeap", false, 50,
-			&Heap[int]{
+			&PrioQ[int]{
 				size:     7,
 				compare:  MaxInt,
 				elements: []int{50, 30, 20, 15, 10, 8, 16},
 			},
-			&Heap[int]{
+			&PrioQ[int]{
 				size:     6,
 				compare:  MaxInt,
 				elements: []int{30, 16, 20, 15, 10, 8, 50},
 			},
 		},
 		{"Extract on small MaxHeap", false, 50,
-			&Heap[int]{
+			&PrioQ[int]{
 				size:     2,
 				compare:  MaxInt,
 				elements: []int{50, 30},
 			},
-			&Heap[int]{
+			&PrioQ[int]{
 				size:     1,
 				compare:  MaxInt,
 				elements: []int{30, 50},
 			},
 		},
 		{"Extract on MinHeap", false, 3,
-			&Heap[int]{
+			&PrioQ[int]{
 				size:     11,
 				compare:  MinInt,
 				elements: []int{3, 7, 8, 11, 15, 9, 26, 14, 12, 22, 22},
 			},
-			&Heap[int]{
+			&PrioQ[int]{
 				size:     10,
 				compare:  MinInt,
 				elements: []int{7, 11, 8, 12, 15, 9, 26, 14, 22, 22, 3},
 			},
 		},
 		{"Empty heap", true, 0, 
-			&Heap[int]{
+			&PrioQ[int]{
 				size:     0,
 				compare:  MinInt,
 				elements: []int{},
 			},
-			&Heap[int]{
+			&PrioQ[int]{
 				size:     0,
 				compare:  MinInt,
 				elements: []int{},
@@ -142,52 +142,52 @@ func TestInsert(t *testing.T) {
 	tests := []struct {
 		name    string
 		element int
-		heap    *Heap[int]
-		expect  *Heap[int]
+		heap    *PrioQ[int]
+		expect  *PrioQ[int]
 	}{
 		{"Insert on MaxHeap", 60,
-			&Heap[int]{
+			&PrioQ[int]{
 				size:     7,
 				compare:  MaxInt,
 				elements: []int{50, 30, 20, 15, 10, 8, 16},
 			},
-			&Heap[int]{
+			&PrioQ[int]{
 				size:     8,
 				compare:  MaxInt,
 				elements: []int{60, 50, 20, 30, 10, 8, 16, 15},
 			},
 		},
 		{"Insert on MaxHeap #2", 60,
-			&Heap[int]{
+			&PrioQ[int]{
 				size:     9,
 				compare:  MaxInt,
 				elements: []int{50, 30, 20, 15, 10, 8, 16, 9, 8},
 			},
-			&Heap[int]{
+			&PrioQ[int]{
 				size:     10,
 				compare:  MaxInt,
 				elements: []int{60, 50, 20, 15, 30, 8, 16, 9, 8, 10},
 			},
 		},
 		{"Insert on MinHeap #1", 1,
-			&Heap[int]{
+			&PrioQ[int]{
 				size:     4,
 				compare:  MinInt,
 				elements: []int{3, 5, 7, 10},
 			},
-			&Heap[int]{
+			&PrioQ[int]{
 				size:     5,
 				compare:  MinInt,
 				elements: []int{1, 3, 7, 10, 5},
 			},
 		},
 		{"Insert on MinHeap #2", 1,
-			&Heap[int]{
+			&PrioQ[int]{
 				size:     0,
 				compare:  MinInt,
 				elements: []int{},
 			},
-			&Heap[int]{
+			&PrioQ[int]{
 				size:     1,
 				compare:  MinInt,
 				elements: []int{1},
@@ -221,7 +221,7 @@ func assertError(t *testing.T, shouldFail bool, err error) {
 	}
 }
 
-func assertEqualHeap(t *testing.T, got, want *Heap[int]) {
+func assertEqualHeap(t *testing.T, got, want *PrioQ[int]) {
 	t.Helper()
 	if got.size != want.size {
 		t.Errorf("Heaps have different sizes, got %d want %d", got.size, want.size)

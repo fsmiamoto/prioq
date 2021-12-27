@@ -5,28 +5,32 @@ import (
 	"errors"
 )
 
+// CompareFunc is a generic function that compares two values and that should return true
+// whenever those values should be swapped
 type CompareFunc[T any] func(a T, b T) bool
 
-// Heap is a representation of a binary heap data structure
-type Heap[T any] struct {
+// PrioQ represents a generic priority queue data structure
+type PrioQ[T any] struct {
 	size     int
 	compare  func(a T, b T) bool
 	elements []T
 }
 
-// New ...
-func New[T constraints.Ordered](elements []T, initialCapacity int) *Heap[T] {
+// New creates a new priority queue for elements in the Ordered constraint.
+func New[T constraints.Ordered](elements []T, initialCapacity int) *PrioQ[T] {
 	return NewWithCompareFunc(elements, initialCapacity, func(a T, b T) bool {
 		return a < b
 	})
 }
 
-// NewWithCompareFunc ...
-func NewWithCompareFunc[T any](elements []T, initialCapacity int, cf CompareFunc[T]) *Heap[T] {
+// NewWithCompareFunc creates a new priority queue with the given initial capacity.
+// Specifiing an initial capacity can be useful to avoid reallocations but in general
+// you can just specify len(elements).
+func NewWithCompareFunc[T any](elements []T, initialCapacity int, cf CompareFunc[T]) *PrioQ[T] {
 	elems := make([]T, len(elements), initialCapacity)
 	copy(elems, elements)
 
-	h := &Heap[T]{
+	h := &PrioQ[T]{
 		size:     len(elems),
 		compare:  cf,
 		elements: elems,
@@ -38,7 +42,7 @@ func NewWithCompareFunc[T any](elements []T, initialCapacity int, cf CompareFunc
 }
 
 // heapify makes a heap of the slice in-place
-func (h *Heap[T]) heapify() {
+func (h *PrioQ[T]) heapify() {
 	i := h.size/2 - 1
 	for i >= 0 {
 		left := 2*i + 1
@@ -72,9 +76,9 @@ func (h *Heap[T]) heapify() {
 	}
 }
 
-// Insert adds a new element to the heap
-// The time complexity is  O(log(n)), n = # of elements in the heap
-func (h *Heap[T]) Insert(x T) {
+// Insert adds a new element to the priority queue
+// The time complexity is  O(log(n)), n = # of elements in the priority queue
+func (h *PrioQ[T]) Insert(x T) {
 	h.elements = append(h.elements, x)
 	h.size++
 
@@ -86,9 +90,10 @@ func (h *Heap[T]) Insert(x T) {
 	}
 }
 
-// Extract returns the element at the root of the heap
-// The time complexity is  O(log(n)), n = # of elements in the heap
-func (h *Heap[T]) Extract() (T, error) {
+// Extract returns the element at the front of the queue
+// It returns an errors whenever the queue is empty
+// The time complexity is  O(log(n)), n = # of elements in the queue
+func (h *PrioQ[T]) Extract() (T, error) {
 	if h.size == 0 {
 		// Trick for getting a generic zero value
 		var t T
@@ -123,12 +128,12 @@ func (h *Heap[T]) Extract() (T, error) {
 	return removedElem, nil
 }
 
-// IsEmpty indicates if the heap has no elements left
-func (h *Heap[T]) IsEmpty() bool {
+// IsEmpty indicates whether the queue is empty
+func (h *PrioQ[T]) IsEmpty() bool {
 	return h.size == 0
 }
 
-func (h *Heap[T]) largerChild(i int) int {
+func (h *PrioQ[T]) largerChild(i int) int {
 	left := 2*i + 1
 	right := left + 1
 
