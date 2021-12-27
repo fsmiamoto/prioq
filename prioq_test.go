@@ -55,7 +55,7 @@ func TestNew(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			heap := NewWithCompareFunc(tt.input, tt.capacity, tt.cf)
+			heap := NewWithCompareFunc(tt.input, tt.cf)
 
 			if len(heap.elements) != len(tt.expect) {
 				t.Errorf("Heap has the wrong number of elements")

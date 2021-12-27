@@ -17,17 +17,17 @@ type PrioQ[T any] struct {
 }
 
 // New creates a new priority queue for elements in the Ordered constraint.
-func New[T constraints.Ordered](elements []T, initialCapacity int) *PrioQ[T] {
-	return NewWithCompareFunc(elements, initialCapacity, func(a T, b T) bool {
-		return a < b
+func New[T constraints.Ordered](elements []T) *PrioQ[T] {
+	return NewWithCompareFunc(elements, func(a T, b T) bool {
+		return a > b
 	})
 }
 
 // NewWithCompareFunc creates a new priority queue with the given initial capacity.
 // Specifiing an initial capacity can be useful to avoid reallocations but in general
 // you can just specify len(elements).
-func NewWithCompareFunc[T any](elements []T, initialCapacity int, cf CompareFunc[T]) *PrioQ[T] {
-	elems := make([]T, len(elements), initialCapacity)
+func NewWithCompareFunc[T any](elements []T, cf CompareFunc[T]) *PrioQ[T] {
+	elems := make([]T, len(elements))
 	copy(elems, elements)
 
 	h := &PrioQ[T]{
