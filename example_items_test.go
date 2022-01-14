@@ -17,7 +17,7 @@ func MaxItem(node, child Item) bool {
 	return child.key > node.key
 }
 
-// This example shows how to implement your own CompareFunc and the use on
+// This example shows how to implement your own CompareFunc and then use it on
 // a defined type
 func Example_items() {
 	values := []Item{
@@ -25,7 +25,7 @@ func Example_items() {
 		Item{key: 22},
 		Item{key: 3},
 		Item{key: 14},
-		Item{key: 22},
+		Item{key: 42},
 	}
 
 	pq := prioq.NewWithCompareFunc[Item](values, MaxItem)
@@ -38,7 +38,7 @@ func Example_items() {
 		fmt.Println(item.key)
 	}
 	// Output:
-	// 22
+	// 42
 	// 22
 	// 14
 	// 8
