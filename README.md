@@ -12,6 +12,11 @@ The API is still at an experimental phase.
 
 Go 1.18
 
+If you've already have Go >=1.16i installed, you can get the beta with:
+```sh
+$ make go1.18
+```
+
 ## Example
 ```go
 values := []int{40, 30, 50, 100, 15}
