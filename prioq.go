@@ -133,6 +133,11 @@ func (h *PrioQ[T]) IsEmpty() bool {
 	return h.size == 0
 }
 
+// Len returns the current size of the priority queue
+func (h *PrioQ[T]) Len() int {
+    return h.size
+}
+
 func (h *PrioQ[T]) largerChild(i int) int {
 	left := 2*i + 1
 	right := left + 1
