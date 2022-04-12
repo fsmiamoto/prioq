@@ -1,7 +1,7 @@
 package prioq
 
 import (
-	"constraints"
+	"golang.org/x/exp/constraints"
 	"errors"
 )
 
