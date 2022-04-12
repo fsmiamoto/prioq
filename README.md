@@ -1,5 +1,7 @@
 # prioq
 
+[![Test](https://github.com/fsmiamoto/prioq/actions/workflows/go.yml/badge.svg)](https://github.com/fsmiamoto/prioq/actions/workflows/go.yml)
+
 A priority queue package using a binary heap data structure in Go.
 
 Built with [Go 1.18 Generics](https://go.dev/blog/why-generics) support.
