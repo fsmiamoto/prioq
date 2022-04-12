@@ -1,23 +1,19 @@
 # Should be at least Go 1.16
 GO := $(shell which go)
-GO118 := $(shell which go1.18beta1)
 
 build: prelude
-	$(GO118) build
+	$(GO) build
 
 test: prelude
-	$(GO118) test -v ./...
+	$(GO) test -v ./...
 
 fmt: prelude
-	$(GO118) fmt .
+	$(GO) fmt .
 
 prelude:
-	@$(GO118) version
+	@$(GO) version
 	@date
-
-go1.18:
-	$(GO) install golang.org/dl/go1.18beta1@latest
 
 ci: fmt test build
 
-.PHONY: prelude test fmt build ci go1.18
+.PHONY: prelude test fmt build ci
